@@ -15,13 +15,11 @@ import os
 
 from environs import Env
 
-
 env = Env()
 env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -46,8 +44,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Rest Framework
     "corsheaders",
-    "rest_framework_simplejwt.token_blacklist",
     "rest_framework",
+    "drf_yasg",
+    "rest_framework_simplejwt",
     # Apps
     "apps.webApp",
     "apps.backoffice",
@@ -62,6 +61,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "querycount.middleware.QueryCountMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "configuracion.urls"
@@ -84,7 +84,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "configuracion.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -99,12 +98,10 @@ DATABASES = {
     }
 }
 
-
 print(
     f"Conectado con el usuario {DATABASES['default']['USER']} a "
     f"{DATABASES['default']['HOST']}/{DATABASES['default']['NAME']}"
 )
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -124,8 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'backoffice.Administrator'
-
+AUTH_USER_MODEL = "backoffice.Administrator"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -138,7 +134,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -150,6 +145,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 1000,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+SWAGGER_SETTINGS = {
+    # 'USE_SESSION_AUTH': False,
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
 }
 
 # Default primary key field type

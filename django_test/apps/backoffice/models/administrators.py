@@ -1,12 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
+from compartidos.models import TimestampedModel
 
 
-# Create user model from abstract base user model and call it administrator
-
-
-class Administrator(AbstractBaseUser, PermissionsMixin):
-    name = models.CharField(max_length=50, unique=True)
+class Administrator(AbstractBaseUser, PermissionsMixin, TimestampedModel):
+    name = models.CharField(max_length=50)
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=50, unique=True)
     is_active = models.BooleanField(default=True)

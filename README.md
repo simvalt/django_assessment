@@ -1,65 +1,108 @@
-# Django Assessment
+# API django_assesment
+En este proyecto se implementa una API REST con arquitectura hexagonal y desarrollo basado en unittest de compoortamieto.
 
-## Intro
+## Clonar repositorio
 
-Esta aplicación usa python 3.8.13 y Django 4.1.3
+```
+git clone https://github.com/nxiodev/django_arq_hex_example
+```
 
-## Listado de tareas 
+## Bases de datos:
+- **PostgreSQL** : Se utiliza para almacenar la información interna de la aplicación
 
-### Tarea #1
+`NOTA: De acuerdo a lo propuesto en la HU_SPRINT.md se genera un diagrama de entidad relación en un png`
 
-#### CRUD de clientes y pagos de cliente
+## Desplegar proyecto
 
-crear 3 tablas, customers, payments_customers, administrators
+1. Crea tu ambiente virtual ejecuta el siguiente comando
 
-1. Estructura de la tabla customers
+   ```ssh
+   py -m venv venv;
+   venv\Scripts\activate
+   ```
 
-   - id
-   - name
-   - paternal_surname
-   - email
+2. Instala las dependencias del proyecto
 
-2. Estructura de la tabla payments_customers
+   ```ssh
+    pip install -r requirements.txt
+    ```
 
-   - id
-   - amount
-   - customer_id
-   - product_name
-   - quantity
+3. Crear una base de datos paycode-db en postgres y situate en la carpeta django_test para crear tu archivo .env
+   ```ssh
+    DEBUG=True
+    SECRET_KEY='11111111111818181818181811111111'
+    ALLOWED_HOSTS=*
+    CORS_ORIGIN_WHITELIST=http://localhost:3000,http://localhost:8000,http://localhost:8080
+    
+    
+    DB_USER=
+    DB_PASSWORD=
+    DB_HOST=127.0.0.1
+    DB_PORT=5432
+    DB_NAME=paycode-db
+    DB_ENGINE=django.db.backends.postgresql_psycopg2
 
-3. Estructura de la tabla customers
+   ```
+   `NOTA: Usa tu usuario y contraseña de postgres`
+4. En la misma carpeta ejecuta las migraciones
 
-   - id
-   - name
-   - password
-   - rol `[administrator,super_administrator]`
+   ```ssh
+   python manage.py makemigrations;
+   python manage.py migrate
+   ```
+5. Ahora instala los fixtures para el dummy data
 
-Crear 2 registros dummy en la tabla administrators uno con cada rol 
+   ```ssh
+   python .\manage.py loaddata .\fixtures\data.json
+   ```
+   
+6. Inicia el servidor
 
-Crear login usando la tabla administrators.
+   ```ssh
+    python .\manage.py runserver
+    ```
+   
+   
+### Info del proyecto
 
-   - Cuando el rol sea super_administrator, permitira editar, borrar y crear clientes
-   - Cuando el rol sea administrator solo se listaran los usuarios y pagos del usuario.
+Este proyecto fue desarrollado basado en una practica la cuál es generar contratos para el backend y front end los cuales
+pérmitan de manera sencilla la integración de los servicios y la comunicación entre los mismos.
 
-Crear CRUD para la tabla customers.
+Se generó un documento contratos_sprint.md el cual contiene los contratos de los servicios que se implementaron en el proyecto.
+También se generó un diagrama entidad relación en el archivo diagrama ER.png
+El proyecto cuenta con dos usuarios cargados en los fixtures.
+Los usuarios tienen dos perfiles, super_administrator y administrator.
 
-   - Cada ves que se inserte un registro en la tabla customers se debe crear uno o varios registros dummy en la tabla payments_customers
+- **super_administrator** : Puede crear, editar y eliminar clientes y pagos de clientes
+- **administrator** : Solo puede ver los clientes y pagos de clientes
 
-Crear vistas de listado
+Las credenciales de cada uno son las siguientes:
 
-   - listado de customers
-   - listado de payments_customers
+- **super_administrator** :
+  - email: dj-superadmin@paycode.io 
+  - password: admin123
+- **administrator** :
+  - email: dj-admin@paycode.io
+  - password: admin123
 
 
-### Tarea #2
+La api está documentada en el url:
 
-Crear un API REST
+http://localhost:8000/api/swagger/
 
-   - Implementar modulo de autenticacion usando la tabla administrators
-   - Endpoint que listara customers
-   - Endpoint que listara payments_customers
-   - Endpoint para editar customers
-   - Endpoint para eliminar customers
-   - Endpoint para insertar customers
-   - Solo los administradores con el rol super_administrator podran ejecutar creciones, ediciones y eliminaciones
+usa el servicio de token/ para obtener el token de autenticación y usa el token en el Authorize con la palabra Bearer antes del token.
+
+`EJEMPLO: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY5ODQ4MDQwLCJpYXQiOjE2Njk4NDc3NDAsImp0aSI6IjQwYTQ0MGRkYTk1MjRjYTliYmRlNTUwODMzZjYwMGQwIiwidXNlcl9pZCI6MX0.11mvl3StKfxX0hwKVHXzgSdlI0TUN7kJEEVPeaeLdYg`
+
+### Ejecutar pruebas
+
+Para ejecutar las pruebas unitarias ejecuta el siguiente comando
+
+```ssh
+python .\manage.py test
+```
+
+
+
+
 
