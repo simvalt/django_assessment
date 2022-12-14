@@ -1,0 +1,10 @@
+{% extends '_base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">Log In</a>
+  <p>Are you not registered?</p>
+  <a href="{% url 'signup' %}">Sing Up</a>
+{% endblock %}

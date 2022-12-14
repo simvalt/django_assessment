@@ -1,0 +1,54 @@
+{% extends '_base.html' %}
+
+{% block title %}Customer informacion table{% endblock %}
+
+{% block content %}
+<h4>
+    Hi {{ user.username }}!
+</h4>
+
+<div>
+    <a href="create" type="button">Create Customer</a>
+</div>
+
+<table>
+    <thead>
+      <tr>
+        <th>Customer ID</th>
+        <th>Name</th>
+        <th>Paternal Surname</th>
+        <th>Email</th>
+        <th>Accions</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+    {% for customers in object_list %}
+      <tr>
+        <td>{{ customers.customer_id }}</td>
+        <td>{{ customers.name }}</td>
+        <td>{{ customers.paternal_surname }}</td>
+        <td>{{ customers.email }}</td>
+                          
+          <form method="POST" action="delete/{{customers.customer_id}}">
+            {% csrf_token %}
+            <div>
+   
+              <a href="detail/{{customers.customer_id}}"  type="button">Details </a>
+              <a href="update/{{customers.customer_id}}" type="button">Edit </a>
+              <a href="delete/{{customers.customer_id}}" type="button">Delete </a>
+              <button onclick="return eliminar();" type="submit">
+                Delete
+              </button>
+            </div>
+          </form>
+   
+        </td>
+      </tr>
+    {% endfor %}
+   
+    </tbody>
+  </table>
+
+<p><a href="{% url 'logout' %}">Log Out</a></p>
+{% endblock %}
