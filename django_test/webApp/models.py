@@ -1,6 +1,8 @@
 from django.db import models
 
-ROLES = ['administrator', 'super_administrator']
+ROLES = [
+    ('admin', 'administrator'), 
+    ('super', 'super_administrator'),]
 
 # Create your models here.
 class Customers(models.Model):
@@ -24,7 +26,7 @@ class User(models.Model):
     id = models.CharField(primary_key=True, max_length=6)
     name = models.CharField(max_length=50, blank=False)
     password = models.CharField(max_length=50)
-    rol = models.Choices(ROLES)
+    rol = models.CharField(max_length=15, choices=ROLES, default='admin')
 
     def __str__(self):
         return self.name
