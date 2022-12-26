@@ -38,19 +38,24 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>id</th>
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>E-mail</th>
+                            <th colspan="">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for c in customers %}
                         <tr>
+                            <td>{{forloop.counter}}</td>
                             <td>{{c.id}}</td>
                             <td>{{c.name}}</td>
                             <td>{{c.paternal_surname}}</td>
                             <td>{{c.email}}</td>
+                            <td><a href="editarCustomer/{{c.id}}" class="btn btn-info">Editar</a></td>
+                            <td><a href="eliminarCustomer/{{c.id}}" class="btn btn-danger btnEliminacion">Borrar</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
