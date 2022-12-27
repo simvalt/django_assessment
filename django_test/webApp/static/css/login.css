@@ -1,0 +1,48 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    background: url(../img/bg.jpeg) no-repeat center top;
+    background-size: cover;
+    font-family: sans-serif;
+    height: 100vh;
+}
+
+.login-container {
+    width: 320px;
+    height: 420px;
+    background: #000;
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    padding: 70px 30px;
+}
+
+.avatar {
+    width: 130px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    top: -50px;
+    left: calc(50% - 60px);
+}
+
+.login-container h1 {
+    margin: 0;
+    padding: 0 50px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.login-container h2 {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    display: block;
+}
+
+.button {
+    text-align: center;
+}
