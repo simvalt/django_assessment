@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login WebApp</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
     <div class="container-form">
-        <h3 class="txt_gris_medio">Acceder</h3>
-        <hr>
         <div class="login-container">
+            <img class="avatar" src="../../static/img/logo_300.png" alt="The Systems Internet">
+            <h1>Acceder</h1>
             {% if form.errors %}
                 <div class="alert alert-danger"><p>El usuario y contraseña no coinciden.
                     Por favor intenta nuevamente</p>
@@ -19,15 +21,19 @@
             <form id="form-login" method="post" action="">
                 {% csrf_token %}
                 <div class="w450" id="username">
+                    <h2>Username:</h2> 
                     {{form.username}}
                 </div>
                 <div class="w450" id="password">
+                    <h2>Password:</h2>
                     {{form.password}}
                 </div>
-                <button id="btn-registrar" class="button_large">Entrar</button>
+                <br>
+                <div class="button">
+                    <button id="btn-registrar" class="button_large">Entrar</button>
+                </div>
                 <div class="clearfix"></div>
             </form>
-            <a href="#" class="txt_verde txt_center mt15 mb20" style="display: block">Aviso de privacidad</a>
         </div>
     </div>
 </body>
