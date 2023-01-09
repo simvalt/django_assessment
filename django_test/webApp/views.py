@@ -18,6 +18,16 @@ from webApp.core.payments import create_payments, delete_payments, get_payments,
 def login(request):
     form = GenerateLoginForm()
     if request.method == 'GET':
+        if len(Administrators.objects.all()) < 1:
+            Administrators.objects.create(
+                name = "user",
+                password= "lalala123",
+                rol="administrator")
+            Administrators.objects.create(
+                name = "admin",
+                password= "lalala123",
+                rol="super_administrator")
+
         return render(request, 'login.html', {
             'form': form,
         })
