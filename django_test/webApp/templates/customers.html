@@ -1,0 +1,128 @@
+{% extends 'dashboard.html' %}
+{% block dashboard %} 
+{% load static %}
+
+<div class="d-flex mb-3">
+    <div class="fs-3 me-auto mb-3">Gestion de Customers</div>
+    <div class="">
+        {% if user.rol == 'super_administrator' %}
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customerModal">Agregar +</button>
+        {% endif %}
+    </div>
+  </div>
+  
+  <div class="accordion" id="accordionFlushCustomers">
+    {% for c in customers %}
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="heading{{c.id}}">
+        <button class="accordion-button collapsed text-capitalize" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{c.id}}" aria-expanded="false" aria-controls="collapse{{c.id}}">
+          {{c.name}} {{c.paternal_surname}}
+        </button>
+      </h2>
+      <div id="collapse{{c.id}}" class="accordion-collapse collapse" aria-labelledby="heading{{c.id}}" data-bs-parent="#accordionFlushCustomers">
+        <div class="accordion-body">
+          <div class="d-flex mb-3">
+            <div class="fs-4 me-auto text-capitalize">{{c.name}} {{c.paternal_surname}} </div>
+            <div class="">
+                {% if user.rol == 'super_administrator' %}
+                <button type="button" class="btn btn-warning me-2" onclick="update({{c.id}})" value="{{c.id}}" name="customer_update">Editar</button>
+                {% endif %}
+            </div>
+            <form method="POST" action="{% url 'customer_delete' user.id%}">
+                {% csrf_token %}
+                <div class="">
+                    {% if user.rol == 'super_administrator' %}
+                    <button class="btn btn-danger" name="id" value="{{c.id}}">Eliminar</button>
+                    {% endif %}
+                </div>
+            </form>
+            </div>
+          <div class="d-flex">
+            <div class="fs-6 me-auto">{{c.email}}</div>
+            <div class=""><button type="button" class="btn btn-dark me-2" onclick="location.href='{% url 'dashboard_payments' user.id c.id %}'">Ver pagos</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="customerModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Customers</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'customer_create' user.id %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              {{customer_form.name}}
+            </div>
+            <div class="mb-3">
+              {{customer_form.paternal_surname}}
+            </div>
+            <div class="mb-3">
+              {{customer_form.email}}
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-dark">Guardar</button>
+          </div>
+          </form>   
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="update_Modal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Customers</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="form_update" method="POST" action="{% url 'customer_update' user.id %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{customer_form.id}}
+            </div>
+            <div class="mb-3">
+              {{customer_form.name}}
+            </div>
+            <div class="mb-3">
+              {{customer_form.paternal_surname}}
+            </div>
+            <div class="mb-3">
+              {{customer_form.email}}
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-dark">Guardar</button>
+          </div>
+          </form>   
+      </div>
+    </div>
+  </div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#form_update').submit(function(){
+            $("#form_update :disabled").removeAttr('disabled');
+        })      
+    });
+    function update(id){
+        var customer = JSON.parse("{{customers_json | safe}}".replace(/'/g, '"')).find( x => x.id == id)
+        $("#form_update input[name='name']").val(customer['name']);
+        $("#form_update input[name='paternal_surname']").val(customer['paternal_surname']);
+        $("#form_update input[name='email']").val(customer['email']);
+        $("#form_update input[name='id']").val(customer['id']);
+        $("#update_Modal").modal("show");
+        return false;
+    }
+
+</script>
+{% endblock %}
+

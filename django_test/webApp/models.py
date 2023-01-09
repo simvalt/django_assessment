@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class Customers(models.Model):
 
     name = models.CharField(max_length=200)
@@ -8,10 +7,11 @@ class Customers(models.Model):
     email = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.name
+        return self.name+" "+self.paternal_surname
+
 class Payments_Customers(models.Model):
     amount = models.IntegerField()
-    customer_id =  models.ForeignKey(Customers, on_delete=models.CASCADE)
+    customer_id = models.ForeignKey(Customers, on_delete=models.CASCADE)
     product_name = models.CharField(max_length=200)
     quantity = models.IntegerField()
 
@@ -22,5 +22,6 @@ class Administrators(models.Model):
     name = models.CharField(max_length=200)
     password = models.CharField(max_length=200)
     rol = models.CharField(max_length=30)
+
     def __str__(self):
         return self.name

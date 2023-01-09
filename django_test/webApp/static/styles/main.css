@@ -16,7 +16,7 @@ button {
     height: 100px;
 }
 .container-login{
-    height: 45vh;
+    height: 55vh;
     width: 35vw;
 }
 .card-login{
@@ -55,7 +55,6 @@ button {
     font-size: 1.7rem;
     border-radius: 10px;
 }
-
 @media (max-width: 768px) {
     .container-login{
         height: 70vh;

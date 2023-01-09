@@ -3,5 +3,12 @@ from . import views
 
 urlpatterns = [
     path('', views.login, name="login"),
-    path('dashboard/<int:id>',views.dashboard, name="dashboard")
+    path('dashboard/<int:id>/customers',views.customer_front, name="dashboard_customers"),
+    path('dashboard/<int:id>/customers/<int:customer>/payments',views.payments_front, name="dashboard_payments"),
+    path('customer/<int:id>/customers/create',views.customer_create,name="customer_create"),
+    path('customer/<int:id>/customers/delete',views.customer_delete,name="customer_delete"),
+    path('customer/<int:id>/customers/update',views.customer_update,name="customer_update"),
+    path('customer/<int:id>/customers/<int:customer>/payments/create',views.payments_create,name="payments_create"),
+    path('customer/<int:id>/customers/<int:customer>/payments/delete',views.payments_delete,name="payments_delete"),
+    path('customer/<int:id>/customers/<int:customer>/payments/update',views.payments_update,name="payments_update"),
 ]
