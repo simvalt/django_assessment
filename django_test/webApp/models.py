@@ -1,3 +1,4 @@
+import json
 from django.db import models
 
 class Customers(models.Model):
@@ -9,6 +10,10 @@ class Customers(models.Model):
     def __str__(self):
         return self.name+" "+self.paternal_surname
 
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=4)
+
 class Payments_Customers(models.Model):
     amount = models.IntegerField()
     customer_id = models.ForeignKey(Customers, on_delete=models.CASCADE)
@@ -18,6 +23,10 @@ class Payments_Customers(models.Model):
     def __str__(self):
         return self.product_name
 
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=4)
+
 class Administrators(models.Model):
     name = models.CharField(max_length=200)
     password = models.CharField(max_length=200)
@@ -25,3 +34,7 @@ class Administrators(models.Model):
 
     def __str__(self):
         return self.name
+
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=4)

@@ -11,4 +11,7 @@ urlpatterns = [
     path('customer/<int:id>/customers/<int:customer>/payments/create',views.payments_create,name="payments_create"),
     path('customer/<int:id>/customers/<int:customer>/payments/delete',views.payments_delete,name="payments_delete"),
     path('customer/<int:id>/customers/<int:customer>/payments/update',views.payments_update,name="payments_update"),
+    path('api/login',views.api_login,name="api_login"),
+    path('api/customers',views.api_customers,name="api_customers"),
+    path('api/payments',views.api_payments,name="api_payments")
 ]
